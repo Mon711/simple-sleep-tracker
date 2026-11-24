@@ -1,0 +1,52 @@
+# Dependencies and generated builds
+node_modules/
+dist/
+.vite/
+.vinext/
+.wrangler/
+.sites-runtime/
+coverage/
+*.tsbuildinfo
+prototype/
+
+# Environment files, keys, and credentials
+.env
+.env.*
+!.env.example
+.dev.vars
+.dev.vars.*
+*.pem
+*.key
+*.p12
+*.pfx
+*.credentials
+credentials*.json
+secrets*.json
+
+# Databases, personal records, and exports
+*.db
+*.db-*
+*.sqlite
+*.sqlite-*
+*.sqlite3
+*.sqlite3-*
+*.csv
+sleep-export*.json
+data/
+private/
+exports/
+backups/
+*.bak
+*.dump
+*.sql.gz
+
+# Logs and local test artifacts
+*.log
+logs/
+debug/
+test-results/
+playwright-report/
+playwright/.auth/
+artifacts/
+screenshots/
+.DS_Store
