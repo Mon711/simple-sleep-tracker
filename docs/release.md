@@ -1,6 +1,14 @@
 # Release and hosting
 
-Phase 2 is complete locally. Gate 2 is the separate approval for any push, Sites upload or deployment, access change, credential setup, or charge. The proposed public repository contains source and synthetic tests only.
+Gate 2 authorized the initial GitHub source and an owner-only Sites trial using fictional records. The public commit contains the exact 53 files initially reviewed. The MCP compatibility fix was verified in the live Sites trial at version 2. The daily-use release below carries the fix into the public source. [Initial GitHub release commit](https://github.com/Mon711/simple-sleep-tracker/commit/065272ddeb7d3126f833266f2af6476926261d65)
+
+## Gate 2 results
+
+- Rebuilt the staged tree from a fresh clone and matched the reviewed tree ID. The final staged scan found no secrets, and the empty origin had no reachable history. Verified ignore rules for credentials, private database files, screenshots, logs, backups, exports, and generated output. The authenticated Git push used the owner's verified GitHub account and a GitHub no-reply address.
+- OpenAI reported successful deployment, version 2, and one allowed account with no editor, group, or external grants. Anonymous requests for the app, export, and MCP received HTTP 401. A request presenting an unverified identity header was also denied. The Sites plugin appeared in the owner's installed personal plugins.
+- The owner signed in from Chrome and recorded two fictional check-ins assigned to the same night. Both remained after a reload. Both private export files downloaded. The downloaded JSON showed the exact UTC timestamps and four blank optional fields. CSV download was observed, and the final browser regression covers CSV bytes locally.
+- In an actual ChatGPT Plus conversation, the version 1 plugin's read calls failed with an invalid-request error. Version 2 accepts the documented MCP request metadata while retaining strict tool arguments and owner checks. All five read tools succeeded afterward. An authorized fictional goal was created, edited, and paused through ChatGPT. Site history and a separate connected read confirmed revisions 1, 2, and 3. The plan was left paused.
+- Version 2 passed lint, type checks, 20 unit and integration tests, the Worker/D1 smoke test, the private-runtime smoke test, and scans of the changed files and private source history. All three Playwright runs passed on the final build, including 360 px and 390 px mobile viewports, desktop, the two export formats, offline behavior, and Chrome installability. The trial retained its optional-wellness restriction. No real records were imported, and no paid features were enabled.
 
 ## Verified on 23 November 2026
 
@@ -28,10 +36,9 @@ Playwright exercised sign-in and sign-out, honest empty states, both quick check
 
 ## Remaining verification
 
-- No live Site exists for this project. Verify owner-only access, denial of spoofed anonymous identity, platform sign-in, migration, real Android installation, export, and connected ChatGPT MCP with synthetic data after explicit approval. Worker simulation verifies app behavior and cannot verify OpenAI’s dispatch or your account’s plugin.
-- A physical Android device and real Tailscale HTTPS sessions were not available to this local check. Chrome mobile emulation does not open the Android system keyboard or install a real home-screen icon.
-- Sites Terms prohibit HIPAA-defined Protected Health Information. Public guidance leaves the optional wellness fields unclear. Any Sites release is limited to a synthetic schedule/goal trial until the real-data scope is confirmed. The private version includes all fields, but full private-server MCP in ChatGPT Plus is unverified. Desktop Codex is the private connectivity option.
-- V1 requires a connection to log or view records. The local host must be awake. App exports are portable files. The app has no importer, and the fallback database is protected by private file permissions and the host’s disk security.
+- Physical Android home-screen installation, first launch and sign-in from the icon, and the Android system keyboard still require a device. Real Tailscale HTTPS sessions remain untested. The live desktop browser served the app manifest, and disposable Chrome profiles covered mobile-size layout and installability.
+- Sites Terms prohibit HIPAA-defined Protected Health Information. Public guidance leaves the optional wellness fields unclear. The daily-use release keeps those fields disabled. The separately testable private version includes them. Full private-server MCP in ChatGPT Plus remains unverified.
+- V1 requires a connection to log or view records. Sites provides hosting independently of the owner's computer. The app has no importer. Sites does not document a combined database and files restore. Keep private exports.
 
 ## Exact source intended for the first GitHub push
 
@@ -41,7 +48,7 @@ Playwright exercised sign-in and sign-out, honest empty states, both quick check
 - Data and server: `src/shared/{options,schemas,time}.ts`, `src/server/{errors,http,mcp,sites,store,tracker}.ts`, `src/server/assets.d.ts`, `local/{assets.mjs,assets.d.mts,server.ts,sqlite.ts}`.
 - Verification and project docs: `tests/tracker.test.ts`, `tests/worker.mjs`, `tests/private.mjs`, `tests/e2e/tracker.e2e.ts`, `docs/{agent-lessons,architecture,decisions,release}.md`.
 
-The GitHub target is the empty public repository `Mon711/simple-sleep-tracker`, branch `main`. The project directory cannot write its own `.git` metadata under the current sandbox. The 53 source files were staged for inspection in a writable temporary clone. Gitleaks reported no secrets in the staged diff and no reachable history to scan. The stage excludes build output, credentials, local databases and exports, unused design variants, and browser test artifacts. Recheck the remote and inspect the staged changes again before pushing.
+These 53 files were pushed to the public repository `Mon711/simple-sleep-tracker`, branch `main`. The project directory could not write its own `.git` metadata under the sandbox, so the staged review used a writable temporary clone. Build output, credentials, local databases and exports, unused design variants, and browser test artifacts were excluded.
 
 ## Release options after approval
 
@@ -73,3 +80,12 @@ Use a consistent SQLite backup, such as one made with SQLite's backup command, a
 4. Install the personal plugin created by Sites. Check MCP read tools and one explicitly authorized goal change against the same synthetic database. Check that daily-entry writes are absent. If the hosted plugin can’t connect, keep the Site owner-private and report the failure.
 
 Sites does not document a combined database/files restore to a new Site. Keep private exports. Links for operational checks are in the [Sites Help Center](https://help.openai.com/en/articles/20001339-creating-and-using-chatgpt-sites) and [Sites plugin guide](https://help.openai.com/en/articles/20001547-hosting-a-plugin-with-chatgpt-sites).
+
+## Daily-use release checkpoint · 25 November 2026
+
+- The existing Site still has one allowed account and no editors, group, or external access grants. Both app tables were read in full. They contain two fictional check-ins and three fictional revisions of the trial goal. The seven-day baseline is calculated from the first check-in and has no separate record.
+- Local lint, type checks, build, all 20 Vitest cases, the built Worker and private-server smoke tests, and all three Chrome runs passed. Tests used synthetic data. The Chrome runs covered real browser saves, reloads, edits, goal changes, exports, accessibility checks, and installability at 360, 390, and 1280 px. Dependency audit reported zero known vulnerabilities.
+- A separate, temporary maintenance build was rehearsed in disposable D1. It requires the verified owner and a same-origin confirmation. It checks every field in both tables before removing the five rows in a single transaction, so a mismatch or failure leaves the database unchanged. Rehearsal covered changed and extra rows, rollback if goal deletion fails, and already-empty tables. After cleanup, Today has no goal and Goals has no history or baseline. The standard build returns HTTP 404 on the maintenance path.
+- The public patch includes the live MCP metadata fix, hides the trial-only hosting notice, and updates tests and documentation. Its Git staging excludes the maintenance build, verified database snapshot, private Site configuration, browser artifacts, and local databases.
+
+After approval, confirm the public branch and the private Site audience again. Push the reviewed public patch. Deploy the temporary build privately, recheck the trial set, then run the guarded cleanup. If the set differs, stop the cleanup and report it. Verify empty History and Goals, deploy the standard build, and check that the maintenance path is gone. Update the Site display title while preserving its URL and audience. Verify owner access, signed-out denial, empty exports, and the personal MCP plugin against the clean Site. The prior live trial already exercised goal writes, so final verification can leave the daily history clean. Physical Android installation and keyboard checks remain outstanding.

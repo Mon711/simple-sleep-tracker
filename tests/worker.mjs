@@ -59,6 +59,7 @@ try {
   assert.match(asset.headers.get('cache-control'), /immutable/);
   assert.doesNotMatch(await asset.text(), /SLEEP_MCP_TOKEN|oai-authenticated-user-id|synthetic-site-owner/);
   assert.equal((await call('/manifest.webmanifest', { as: null })).status, 200);
+  assert.equal((await call('/__trial-cleanup')).status, 404);
   assert.equal((await call('/api/today', { as: null })).status, 401);
   assert.equal((await rpc('tools/list', {}, null)).status, 401);
   assert.equal((await call('/api/export?format=csv', { as: null })).status, 401);
@@ -86,11 +87,12 @@ try {
   assert.equal(output.result.tools.length, 8);
   assert.ok(output.result.tools.every(tool => tool.inputSchema && tool.outputSchema));
   const key = { night: bed.night, kind: bed.kind };
-  const entry = await (await rpc('tools/call', { name: 'get_sleep_entry', arguments: key })).json();
+  const metadata = { 'io.modelcontextprotocol/clientInfo': { name: 'synthetic-client', version: '1.0' } };
+  const entry = await (await rpc('tools/call', { name: 'get_sleep_entry', arguments: key, _meta: metadata })).json();
   assert.equal(entry.result.structuredContent.entry.at, '2026-05-18T18:40:00.000Z');
   const stranger = await (await rpc('tools/call', { name: 'get_sleep_entry', arguments: key }, 'synthetic-other-owner')).json();
   assert.equal(stranger.result.structuredContent.entry, null);
-  const goal = await (await rpc('tools/call', { name: 'create_sleep_goal', arguments: {
+  const goal = await (await rpc('tools/call', { name: 'create_sleep_goal', _meta: metadata, arguments: {
     expectedRevision: 0, settings: { bedtime: '00:00', wakeTime: '07:30', period: 'weekly', stepMinutes: 15, direction: 'earlier' },
   } })).json();
   assert.equal(goal.result.structuredContent.revision, 1);

@@ -48,7 +48,6 @@ a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible
   border-radius: 999px;
   padding: 3px 10px;
 }
-.hosting-note { margin-top: 12px; padding: 8px 10px; border-left: 2px solid #9c8fc9; }
 .screen-heading { display: grid; gap: 7px; margin: 23px 0 20px; }
 .stack { display: grid; gap: 12px; }
 .panel, .check-in {

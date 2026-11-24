@@ -23,3 +23,11 @@ Regular Playwright contexts were incognito. Chrome reported that environment as 
 ## Rerun the real D1 integration after updating test tools
 
 The first audit found advisories in esbuild and Miniflare’s transitive dependencies. The patched Miniflare version changed its Worker configuration shape. The local smoke now loads the built module through that shape and applies the actual SQL statements in temporary D1. The browser and D1 checks matter even when the package audit is clean.
+
+## Test the MCP request shape from a real client
+
+The first owner-only publication listed all eight tools, but actual ChatGPT calls returned an invalid-request error. The tool-call parser allowed only a name and arguments, while MCP 2026-07-28 also sends metadata in `params._meta`. It now accepts that object and leaves it unused. Regression tests prove metadata cannot select a different owner, authorize a signed-out call, or bypass strict tool-argument validation. Preserve the real plugin mention in ChatGPT's composer when smoke-testing. Filling the whole composer replaced the mention, so a turn could answer without invoking the attached tool.
+
+## Verify an empty baseline in Goals
+
+The first cleanup rehearsal verified empty tables and then looked for baseline state on the Today response, where it is absent. The corrected check reads Goals and asserts that the baseline has no start date, zero elapsed days, and no current or historical goal. Keep the database checks as well because page defaults alone cannot prove that records were removed.

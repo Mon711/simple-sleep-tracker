@@ -41,15 +41,21 @@ For the browser tests, set `PLAYWRIGHT_CHROME_CHANNEL=chrome` when Google Chrome
 
 ## Hosting and install
 
-The Sites build supports schedules and goals. It **rejects and withholds** mood, bedtime difficulties, rested feeling, and nightmare fields on the server while the platform guidance remains unclear for those fields. The private profile supports all optional fields and keeps them in the local SQLite database. It runs behind Tailscale Serve, which authenticates devices on your private network and passes the verified account name. The host computer must be awake and connected.
+The owner's hosted app uses ChatGPT Sites. It supports schedule tracking, goals, history, and private exports. The server rejects and withholds mood, bedtime difficulties, rested feeling, and nightmare fields while Sites guidance remains unclear for them. The separately testable local profile still supports those fields in SQLite.
 
-See [Release and hosting](docs/release.md) for the approval requirements, setup, and post-release checks. On Android, open the approved private HTTPS address in Chrome and use the browser’s install or Add to Home screen option. Launch it from the icon and verify a synthetic check-in survives reopening. [Chrome web app help](https://support.google.com/chrome/answer/9658361)
+See [Release and hosting](docs/release.md) for the approval and rollout checks.
+
+### Install on Android
+
+1. Open your private Sites address in Chrome and sign in with the ChatGPT account that owns the Site.
+2. In Chrome's **⋮** menu, choose **Install and create shortcut → Install**. Some Chrome versions show **Add to Home screen**.
+3. Open **Sleep Tracker** from the new icon. Check that the signed-in Today screen opens. A connection is required to read or save records. [Chrome Android web app help](https://support.google.com/chrome/answer/9658361?co=GENIE.Platform%3DAndroid)
 
 ## MCP from ChatGPT or Codex
 
 Model Context Protocol (MCP) lets an authorized chat call tracker operations by name. The five read tools list check-ins, open a specific check-in, summarize a week or month, show plans, or count optional details where supported. The three write tools create, edit, or pause goals. Use `get_sleep_goals` to get the current revision number before a write. Daily check-ins can be changed only in the tracker itself.
 
-- **Sites** creates a personal ChatGPT plugin after an approved owner-private deployment. Connect through the plugin card, then check the read tools and goal changes with synthetic data.
+- **Sites** exposes a personal plugin. In ChatGPT, open **Plugins → Personal → Created by you** and find **Simple Sleep Tracker**. During the transition it may still appear as **Simple Sleep Tracker — Synthetic Trial**. Select **Connect** if shown, then **Try in chat**. Keep the plugin mention in the message and ask for your last seven nights. ChatGPT may request one-time approval when you ask it to change a goal.
 - **Private server** exposes the same tools at the private HTTPS address followed by `/mcp`. Desktop Codex can use a Streamable HTTP server, which sends requests over the web connection. Use an owner-authenticated Tailnet device or supply a separately configured random bearer token through an environment variable. Connecting a privately hosted full read/write server directly to ChatGPT Plus is not currently verified.
 
 Examples for connected chats: “Show my last seven nights of check-ins” and “Read my current plan and ask me before moving the wake target 10 minutes earlier.” Data returned by a chat tool may be included in the conversation. [Codex MCP configuration](https://developers.openai.com/codex/mcp) · [Sites plugin setup](https://help.openai.com/en/articles/20001547-hosting-a-plugin-with-chatgpt-sites)

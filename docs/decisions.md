@@ -29,3 +29,13 @@ The dark palette and large first action are carried forward. A recent unpaired b
 **Status** — Implemented.
 
 The Android installation path uses a manifest with the app name, icons, and standalone window setting. The service worker caches only the static offline screen and stylesheet. Sending offline saves later would require retaining personal records on the device and could create a misleading timestamp. V1 requires a connection before reading or saving records.
+
+## 005 · Hosting review for real personal records
+
+**Status** — Historical research. The owner chose ChatGPT Sites for daily schedule tracking. No alternative has been implemented or provisioned.
+
+Cloudflare Workers and D1 could reuse the app's data model but would add separate sign-in, deployment, and backup work. Supabase would also require adapting the database code to Postgres, and its free projects can pause after inactivity. Full direct external MCP read/write access from ChatGPT Plus was unverified for either option. The existing Sites plugin already passed real read and goal-write tests on Plus. [Workers Access](https://developers.cloudflare.com/workers/configuration/cloudflare-access/) · [D1 recovery](https://developers.cloudflare.com/d1/reference/time-travel/) · [Supabase free-plan pausing](https://supabase.com/docs/guides/platform/free-project-pausing) · [Custom MCP availability](https://help.openai.com/en/articles/12584461-connecting-custom-mcp-servers-in-chatgpt)
+
+## 006 · Keep the private Sites release focused on schedules and goals
+
+Section 3.3 expressly prohibits HIPAA-defined protected health information and places other sensitive information under applicable privacy obligations. HHS says data entered in an independent app for personal use generally falls outside HIPAA. OpenAI’s broader Help Center wording leaves the intended use of the four diary fields unclear. The existing restrictions stay in effect for entry writes, exports, and MCP. The owner's intended daily-use scope covers bedtime, wake time, and goals. [Sites Terms](https://openai.com/policies/chatgpt-sites-terms/) · [Sites Help Center](https://help.openai.com/en/articles/20001339-creating-and-using-chatgpt-sites) · [HHS guidance on personal apps](https://www.hhs.gov/hipaa/for-professionals/privacy/guidance/cell-phone-hipaa/index.html)

@@ -126,7 +126,6 @@ function App() {
         <div className="brand-row"><Brand />
           {context.mode === 'synthetic' && <span className="profile">Synthetic</span>}
         </div>
-        {context.mode === 'sites' && <p className="hosting-note muted">Sites tracks schedule and goals. Optional wellness details are available in the private self-hosted app.</p>}
         <div ref={content} tabIndex={-1} className="screen">
           <div className="feedback" aria-live="polite" aria-atomic="true">
             {notice && <p className={notice.error ? 'message error' : 'message success'}>{notice.message}</p>}

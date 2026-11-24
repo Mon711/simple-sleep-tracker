@@ -73,6 +73,7 @@ const registered = new Map(tools.map(value => [value.definition.name, value]));
 const callSchema = z.strictObject({
   name: z.string().min(1).max(80),
   arguments: z.record(z.string(), z.unknown()).optional(),
+  _meta: z.record(z.string(), z.unknown()).optional(),
 });
 type Id = z.infer<typeof rpcId>;
 const info = { name: 'simple-sleep-tracker', version: '0.1.0' };

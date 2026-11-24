@@ -354,4 +354,22 @@ describe('request and MCP boundaries', () => {
     });
     expect(await tracker().goals()).toMatchObject({ current: { revision: 3, status: 'paused' } });
   });
+
+  it('accepts protocol metadata without using it as tool arguments or caller identity', async () => {
+    await tracker().edit(record());
+    const params = {
+      name: 'get_sleep_entry',
+      arguments: { night: '2026-06-10', kind: 'bed' },
+      _meta: { 'io.modelcontextprotocol/clientInfo': { name: 'synthetic-client', version: '1.0' }, owner: 'owner-one' },
+    };
+    const own = await rpc('tools/call', params);
+    expect(await own.json()).toMatchObject({ result: { structuredContent: { entry: { night: '2026-06-10' } } } });
+    const other = await rpc('tools/call', params, runtime('owner-two'));
+    expect(await other.json()).toMatchObject({ result: { structuredContent: { entry: null } } });
+    expect((await rpc('tools/call', params, runtime(null))).status).toBe(401);
+    expect(await (await rpc('tools/call', { ...params, _meta: 'invalid' })).json())
+      .toMatchObject({ error: { code: -32602 } });
+    const injected = await rpc('tools/call', { ...params, arguments: { ...params.arguments, owner: 'owner-two' } });
+    expect(await injected.json()).toMatchObject({ result: { isError: true } });
+  });
 });
